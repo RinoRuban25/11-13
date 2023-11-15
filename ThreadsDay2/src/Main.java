@@ -1,3 +1,4 @@
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
@@ -5,6 +6,7 @@ public class Main{
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         ArrayList<Future<Integer>> futures = new ArrayList<Future<Integer>>();
+        Instant instant1 = Instant.now();
         for(int i = 0; i<100; i++){
             futures.add(executorService.submit(new Task()));
         }
@@ -19,6 +21,8 @@ public class Main{
                 throw new RuntimeException(e);
             }
         }
+        Instant instant2 = Instant.now();
+        System.out.println("Time: " + (instant2.toEpochMilli() - instant1.toEpochMilli())/1000.0 + "s ");
     }
 
     static class Task implements Callable<Integer> {
